@@ -3,14 +3,16 @@
         {{activeProject.title}}
     </div>
     <div v-else>
-        Loading ...
+        <loader :loading="loading"/>
     </div>
 </template>
 
 <script>
     import {mapState, mapActions} from 'vuex'
     import {GET_PROJECT} from "../store/modules/portfolio/actions";
+    import Loader from "../components/Loader";
     export default {
+        components: {Loader},
         name: "project-detail",
         data() {
             return {

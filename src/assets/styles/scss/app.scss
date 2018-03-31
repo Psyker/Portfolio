@@ -1,0 +1,17 @@
+@import "./bootstrap";
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+body {
+  background-color: whitesmoke;
+  font-family: "Montserrat", sans-serif;
+  padding-top: 100px;
+}
+
+h2 {
+  @include textGradient($alternate-gradient)
+}

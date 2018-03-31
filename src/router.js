@@ -14,29 +14,47 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+        order: 1
+      }
     },
     {
       path: '/about',
       name: 'about',
-      component: About
+      component: About,
+      meta: {
+          order: 2
+      }
     },
     {
       path: '/projects',
       name: 'projects',
-      component: Projects
+      component: Projects,
+      meta: {
+          order: 3
+      }
     },
     {
       path: '/project/:id',
       name: 'project-detail',
       component: ProjectDetail,
+      meta: {
+          order: 4
+      },
       props: (route) => ({id: parseInt(route.params.id)})
     }
   ]
 });
 
-router.afterEach(() => {
-    EventBus.$emit('after-route');
+router.afterEach((to, from, next) => {
+    EventBus.$emit('after-route', to, from);
 });
+
+router.beforeEach((to, from, next) => {
+    EventBus.$emit('before-route', to, from);
+    next()
+});
+
 
 export default router;

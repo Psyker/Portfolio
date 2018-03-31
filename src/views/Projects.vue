@@ -1,21 +1,25 @@
 <template>
     <div v-if="!loading">
-        <div v-for="project in projects">
-            <router-link :to="{name: 'project-detail', params: {id: parseInt(project.id)}}">
-                {{ project.title }}
-            </router-link>
+        <h2>Portfolio</h2>
+        <div class="project-list">
+            <project v-for="project in projects" :project="project"/>
         </div>
     </div>
     <div v-else>
-        Loading ...
+        <loader :loading="loading"/>
     </div>
 </template>
 
 <script>
     import {mapState, mapActions} from 'vuex'
     import {GET_PROJECTS_LIST} from "../store/modules/portfolio/actions";
+    import Project from "../components/Project";
+    import Loader from "../components/Loader";
 
     export default {
+        components: {
+            Loader,
+            Project},
         name: "projects",
         data() {
             return {
@@ -43,6 +47,11 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .project-list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
 </style>

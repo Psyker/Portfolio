@@ -1,0 +1,43 @@
+@keyframes fillScreen {
+  0% {
+    background-color: #ff7c00;
+    left: 100%
+  }
+  45% {
+    background-color: #ff7c00;
+  }
+  55% {
+    background-color: #290a59;
+    right: 0;
+  }
+  100% {
+    background-color: #290a59;
+    right: 100%;
+    left: -100%;
+  }
+}
+.page-transition {
+  z-index: 100;
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: black;
+  &.animate {
+    animation: fillScreen 1.5s ease-in-out;
+    &.reverse {
+      animation-direction: reverse;
+    }
+  }
+}
+
+.fade-up-enter-active {
+  transition: opacity .3s, filter 0.4s;
+}
+.fade-up-leave-active {
+  transition: opacity .3s, filter 0.4s;
+}
+.fade-up-enter, .fade-up-leave-to {
+  opacity: 0;
+  filter: blur(15px)
+}

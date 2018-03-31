@@ -1,12 +1,8 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link :to="{name: 'home'}">Home</router-link> |
-      <router-link :to="{name: 'about'}">About</router-link> |
-      <router-link :to="{name: 'projects'}">Projects</router-link>
-    </div>
-    <transition name="fadeLeft" mode="out-in">
-      <router-view/>
+    <navbar/>
+    <transition :name="transitionName" mode="out-in">
+      <router-view :key="$router.currentRoute.fullPath" class="container"/>
     </transition>
     <div ref="pageTransition" class="page-transition "></div>
   </div>
@@ -14,48 +10,43 @@
 
 <script>
     import {EventBus} from "./main";
+    import Navbar from "./components/Navbar";
 
     export default {
+        components: {Navbar},
         name: 'app',
+        data() {
+            return {
+                transitionName: 'fadeLeft',
+                to: null,
+                from: null
+            }
+        },
         mounted() {
             this.$refs.pageTransition.addEventListener('animationend', (e) => {
                 if (e.animationName === "fillScreen") {
-                    this.$refs.pageTransition.classList.remove('animate')
+                    this.$refs.pageTransition.classList.remove('animate');
+                    if (this.to.meta.order > this.from.meta.order) {
+                        this.transitionName = 'fadeLeft'
+                    } else {
+                        this.transitionName = 'fadeRight'
+                    }
                 }
             });
-            EventBus.$on('after-route', () => {
-                this.$refs.pageTransition.classList.add('animate')
-            })
-        },
 
+            EventBus.$on('after-route', (to, from) => {
+                this.to = to;
+                this.from = from;
+                if (to.meta.order > from.meta.order) {
+                    this.$refs.pageTransition.classList.add('animate', 'reverse');
+                } else {
+                    this.$refs.pageTransition.classList.add('animate');
+                    this.$refs.pageTransition.classList.remove('reverse');
+                }
+            });
+        },
     }
 </script>
 
 <style lang="scss">
-  @keyframes fillScreen {
-    0% {
-      background-color: black;
-      left: 100%
-    }
-    50% {
-      background-color: black;
-      right: 0;
-    }
-    100% {
-      background-color: black;
-      right: 100%;
-      left: -100%;
-    }
-  }
-  .page-transition {
-    z-index: 100;
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    background-color: black;
-    &.animate {
-      animation: fillScreen 1.5s ease-in-out;
-    }
-  }
 </style>
