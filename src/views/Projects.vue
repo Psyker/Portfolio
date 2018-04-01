@@ -2,7 +2,7 @@
     <div v-if="!loading">
         <h2>Portfolio</h2>
         <div class="project-list">
-            <project v-for="project in projects" :project="project"/>
+            <project :key="project.id" v-for="project in projects" :project="project"/>
         </div>
     </div>
     <div v-else>

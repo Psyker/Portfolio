@@ -37,7 +37,7 @@
             EventBus.$on('after-route', (to, from) => {
                 this.to = to;
                 this.from = from;
-                if (to.meta.order > from.meta.order) {
+                if (to.meta.order < from.meta.order) {
                     this.$refs.pageTransition.classList.add('animate', 'reverse');
                 } else {
                     this.$refs.pageTransition.classList.add('animate');

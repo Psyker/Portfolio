@@ -24,7 +24,7 @@ const router = new Router({
       name: 'about',
       component: About,
       meta: {
-          order: 2
+          order: 0
       }
     },
     {
